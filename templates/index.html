@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nákupní seznam Albert Westfield</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        textarea {
+            resize: none;
+        }
+        .btn {
+            margin-bottom: 10px; /* Přidání mezery mezi tlačítky */
+        }
+        .btn-full-width {
+            width: 100%; /* Tlačítko na celou šířku pro desktop i mobil */
+        }
+        .btn-half-width {
+            width: 50%; /* Každé tlačítko 50% šířky pro desktop i mobil */
+        }
+    </style>
+    <script>
+        async function sortList() {
+            const input = document.getElementById('input-list').value;
+            try {
+                const response = await axios.post('/', { shopping_list: input });
+                const sortedList = response.data;
+                document.getElementById('output-list').value = sortedList.join('\n');
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Nastala chyba při řazení seznamu.');
+            }
+        }
+
+        async function loadTestList() {
+            try {
+                const response = await axios.get('/test_list');
+                const testList = response.data;
+                document.getElementById('input-list').value = testList.join('\n');
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Nastala chyba při načítání testovacího seznamu.');
+            }
+        }
+
+        function clearLists() {
+            document.getElementById('input-list').value = '';
+            document.getElementById('output-list').value = '';
+            document.getElementById('report').value = '';
+        }
+
+        async function submitReport() {
+            const sortedList = document.getElementById('output-list').value;
+            const report = document.getElementById('report').value;
+            const inputList = document.getElementById('input-list').value; // Přidání input list
+            try {
+                const response = await axios.post('/submit_report', { input_list: inputList, sorted_list: sortedList, report });
+                alert('Report byl úspěšně odeslán!');
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Nastala chyba při odesílání reportu.');
+            }
+        }
+
+        function copyToClipboard() {
+            const outputList = document.getElementById('output-list');
+            outputList.select(); // Vybere text v textarea
+            document.execCommand('copy'); // Zkopíruje vybraný text do schránky
+            alert('Seřazený seznam byl zkopírován do schránky!'); // Upozornění pro uživatele
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Nákupní seznam Albert Westfield</h1>
+        <div class="form-group">
+            <label for="input-list">Položky nákupního seznamu:</label>
+            <textarea id="input-list" class="form-control" rows="10" placeholder="Vložte položky nákupního seznamu (oddělené čárkou nebo na nový řádek)"></textarea>
+        </div>
+        <button class="btn btn-primary btn-full-width" onclick="loadTestList()">Načíst testovací seznam</button>
+        <div class="d-flex justify-content-between">
+            <button class="btn btn-success btn-half-width" onclick="sortList()">Seřadit seznam</button>
+            <button class="btn btn-danger btn-half-width" onclick="clearLists()">Vymazat seznam</button>
+        </div>
+        <div class="form-group mt-4">
+            <label for="output-list">Seřazený seznam:</label>
+            <textarea id="output-list" class="form-control" rows="10" readonly></textarea>
+        </div>
+        <button class="btn btn-warning btn-full-width" onclick="copyToClipboard()">Kopírovat text</button>
+        <div class="form-group">
+            <label for="report">Zpráva k reportu:</label>
+            <textarea id="report" class="form-control" rows="5" placeholder="Napište vaše poznámky k seřazenému seznamu..."></textarea>
+        </div>
+        <button class="btn btn-info btn-full-width" onclick="submitReport()">Odeslat report</button>
+    </div>
+</body>
+</html>

@@ -1,0 +1,1 @@
+test_shopping_list = "bramburky,tampony,slanina,hroznove vino,podprsenka,mattoni,syr na panev,tvaroh,pizza,praci prasek,anglicky rohlik,mixer"
