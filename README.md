@@ -1,6 +1,6 @@
 # Shopping List Sorter
 
-A web application that sorts shopping lists based on the layout of Albert Westfield store.
+A simple web-app that sorts shopping lists based on the layout of Albert Westfield store.
 
 ## Live Demo
 
@@ -8,16 +8,17 @@ Try it out: [https://pybali.pythonanywhere.com/](https://pybali.pythonanywhere.c
 
 ## Features
 
-- Sort shopping lists according to store layout
-- Load a test shopping list
-- Copy sorted list to clipboard
-- Submit reports for incorrectly sorted items
+- Intelligent sorting of shopping lists using fuzzy matching algorithm
+- Category-based item classification
+- Test list loading for demonstration
+- Clipboard integration for easy list copying
+- User feedback system for continuous improvement
 
 ## Technology Stack
 
 - Backend: Python with Flask
-- Database: MySQL
+- Database: MySQL for storing product categories and user reports
 - Frontend: HTML, CSS, JavaScript
 - Hosting: PythonAnywhere
 
-This project demonstrates skills in web development, database management, and deployment of a full-stack application.
+This project showcases skills in algorithm design (fuzzy matching and custom sorting), RESTful API development with Flask, database management, and full-stack web application deployment.
