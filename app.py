@@ -5,6 +5,7 @@ from test_shopping_list import test_shopping_list
 import re
 import mysql.connector
 from mysql.connector import errorcode
+from config import DB_CONFIG
 
 app = Flask(__name__)
 CORS(app)
@@ -14,12 +15,7 @@ sorter = ShoppingListSorter()
 # Funkce pro připojení k databázi
 def get_db_connection():
     try:
-        conn = mysql.connector.connect(
-            host='pybali.mysql.pythonanywhere-services.com',
-            user='pybali',
-            password='balihodb',  # Zde vlož své heslo
-            database='pybali$default'  # Zde použij správný název databáze
-        )
+        conn = mysql.connector.connect(**DB_CONFIG)
         return conn
     except mysql.connector.Error as err:
         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
